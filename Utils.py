@@ -3,25 +3,23 @@ import shutil
 from PIL import Image
 import matplotlib.pyplot as plt
 
-# save images in a nxn grid, imgs is a list of PIL images
-# why not use matplotlib to save this? Matplotlib expects the data
-# to be either in the range [0,1] if it's float or [0,255] if it's
-# an integer. We would need to do clipping to deal with our generated
-# batch of images if we were using matplotlib
-def save_generated_images(images, save_dir, t_id, e, grid_size):
-    rows = cols = grid_size
+# save images in a nxn grid
+def grid_save(images, save_dir, t_id, e, grid_dim, subtext='peep_'):
+    rows = cols = grid_dim
     assert len(images) == rows * cols
 
-    w, h = images[0].size
-    grid = Image.new('RGB', size=(cols * w, rows * h))
+    for i in range(cols * rows):
+        plt.subplot(rows, cols, i + 1)
+        plt.axis('off')
+        plt.imshow(images[i])
 
-    for i, img in enumerate(images):
-        grid.paste(img, box=(i % cols * w, i // cols * h))
-
-    fig_name = 'peep_' + str(t_id) + '_' + str(e) + '.png'
+    # save fig
+    fig_name = subtext + str(t_id) + '_' + str(e) + '.png'
     fig_path = save_dir + fig_name
-    grid.save(fig_path)
+    plt.savefig(fig_path)
     print("generated image saved {}".format(fig_path))
+    # clear buffer
+    plt.clf()
 
 def plot_save_loss(dis_loss, gen_loss, save_dir, t_id):
     plt.xlabel("epochs")
