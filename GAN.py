@@ -115,6 +115,23 @@ class GAN(keras.Model):
         dataset = dataset.map(lambda x: x / 255.0)
         self.dataset_batch_gen = dataset
 
+        # save sample grid plot of real images
+        imgs = []
+        loop_iter = 0
+        grid_dim = 5
+        for img in dataset:
+            loop_iter += 1
+            imgs.append((img.numpy() * 255).astype('int32')[0])
+            if loop_iter == grid_dim * grid_dim:
+                break
+
+        Utils.grid_save(imgs,
+                        self.peep_dir,
+                        0,
+                        0,
+                        grid_dim,
+                        subtext='real_images_')
+
 # call back functions, called at the end of every epoch
 # save gen and disc model weights
 class SaveWeights(keras.callbacks.Callback):
@@ -148,8 +165,8 @@ class PeepGenerator(keras.callbacks.Callback):
             pil_img = keras.preprocessing.image.array_to_img(generated_images[i])
             pil_images_batch.append(pil_img)
 
-        Utils.save_generated_images(pil_images_batch,
-                                    self.peep_dir,
-                                    self.t_id,
-                                    epoch,
-                                    self.dim)
+        Utils.grid_save(pil_images_batch,
+                        self.peep_dir,
+                        self.t_id,
+                        epoch,
+                        self.dim)
