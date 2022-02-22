@@ -39,7 +39,8 @@ if __name__ == '__main__':
                                             peep_dir=Gan.peep_dir,
                                             t_id=train_id),
 
-                          GAN.SaveWeights(save_dir=Gan.weights_dir,
+                          GAN.SaveWeights(D, G,
+                                          save_dir=Gan.weights_dir,
                                           t_id=train_id)]
                       )
     Utils.plot_save_loss(history.history['d_loss'],
