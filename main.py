@@ -13,7 +13,7 @@ if __name__ == '__main__':
     gen_lr = 0.0002
     dis_lr = 0.0002
     batch_size = 32
-    epochs = 2
+    epochs = 1
 
     D = Discriminator.Discriminator(latent_dim, image_shape, dis_lr)
     G = Generator.Generator(latent_dim, gen_lr)
@@ -34,7 +34,7 @@ if __name__ == '__main__':
     history = Gan.fit(Gan.dataset_batch_gen,
                       epochs=epochs,
                       callbacks=[
-                          GAN.PeepGenerator(dim=5,
+                          GAN.PeepGenerator(grid_dim=5,
                                             latent_dim=latent_dim,
                                             peep_dir=Gan.peep_dir,
                                             t_id=train_id),

@@ -147,10 +147,10 @@ class SaveWeights(keras.callbacks.Callback):
 
 # save generated images in a grid
 class PeepGenerator(keras.callbacks.Callback):
-    def __init__(self, dim, latent_dim, peep_dir, t_id):
+    def __init__(self, grid_dim, latent_dim, peep_dir, t_id):
         self.peep_dir = peep_dir
-        self.dim = dim
-        self.num_img = dim * dim
+        self.grid_dim = grid_dim
+        self.num_img = grid_dim * grid_dim
         self.latent_dim = latent_dim
         self.t_id = t_id
 
@@ -169,4 +169,4 @@ class PeepGenerator(keras.callbacks.Callback):
                         self.peep_dir,
                         self.t_id,
                         epoch,
-                        self.dim)
+                        self.grid_dim)
