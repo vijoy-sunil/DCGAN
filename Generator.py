@@ -40,6 +40,7 @@ class Generator:
         weights_file_name = 'generator_weights_' + str(train_id) + '_' + str(e) + '.h5'
         weights_file_path = save_dir + weights_file_name
         self.model.save(weights_file_path)
+        print("weights saved {}".format(weights_file_path))
 
     # load model weights, NOTE: we are not saving model architecture here
     def load_weights(self, save_dir, train_id, e):
