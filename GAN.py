@@ -118,13 +118,15 @@ class GAN(keras.Model):
 # call back functions, called at the end of every epoch
 # save gen and disc model weights
 class SaveWeights(keras.callbacks.Callback):
-    def __init__(self, save_dir, t_id):
+    def __init__(self, d_class, g_class, save_dir, t_id):
+        self.d_class = d_class
+        self.g_class = g_class
         self.save_dir = save_dir
         self.t_id = t_id
 
-    def on_epoch_end(self, epoch):
-        self.model.d_model.save_weights(self.save_dir, self.t_id, epoch)
-        self.model.g_model.save_weights(self.save_dir, self.t_id, epoch)
+    def on_epoch_end(self, epoch, logs=None):
+        self.d_class.save_weights(self.save_dir, self.t_id, epoch)
+        self.g_class.save_weights(self.save_dir, self.t_id, epoch)
 
 # save generated images in a grid
 class PeepGenerator(keras.callbacks.Callback):
@@ -135,7 +137,7 @@ class PeepGenerator(keras.callbacks.Callback):
         self.latent_dim = latent_dim
         self.t_id = t_id
 
-    def on_epoch_end(self, epoch):
+    def on_epoch_end(self, epoch, logs=None):
         random_latent_vectors = tf.random.normal(shape=(self.num_img, self.latent_dim))
         generated_images = self.model.g_model(random_latent_vectors)
         generated_images *= 255
