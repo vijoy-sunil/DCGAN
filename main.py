@@ -10,10 +10,10 @@ if __name__ == '__main__':
     # parameters
     latent_dim = 128
     image_shape = (32, 32, 3)
-    gen_lr = 0.0002
-    dis_lr = 0.0002
+    gen_lr = 0.0001
+    dis_lr = 0.0001
     batch_size = 32
-    epochs = 1
+    epochs = 10
 
     D = Discriminator.Discriminator(latent_dim, image_shape, dis_lr)
     G = Generator.Generator(latent_dim, gen_lr)
